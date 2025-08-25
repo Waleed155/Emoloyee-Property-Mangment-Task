@@ -1,0 +1,124 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+
+}
+@model Emoloyee_Property_Mangment_Task.ViewModel.EmployeeFormViewModel
+@addTagHelper * , @Microsoft.AspNetCore.Mvc
+@addTagHelper * ,@Emoloyee_Property_Mangment_Task
+
+
+<form method="post" >
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="All" class="text-danger"></div>
+    
+        <input asp-for="Id" type="hidden" value="@Model.Id"  >
+
+    
+    <div class="form-group">
+        <label asp-for="Name">User Name</label>
+        <input asp-for="Name" type="text" class=" form-control" placeholder="Waleed">
+        <span asp-validation-for="Name" class="text-danger"></span>
+
+    </div>
+    <div class="form-group">
+        <label asp-for="Code">Employee Code</label>
+        <input asp-for="Code" type="text " class="form-control" id="Code" placeholder="erd125">
+        <span asp-validation-for="Code" class="text-danger"></span>
+
+    </div>
+    @if(Model?.PropertiesViewModel!=null)
+    {
+    @for(int i=0;i< Model.PropertiesViewModel.Count;i++)
+    {
+           var  item = Model.PropertiesViewModel[i];
+            @if (item.propertyType .Equals( PropertyType.DropDown))
+        {
+            var choices = new SelectList(Model.PropertiesViewModel[i].DropDownValues.Split("-").ToList());
+                
+            <div class="form-group">
+                <label > @item.Name</label>
+                <select asp-for="@Model.PropertiesViewModel[i].Value" asp-items="@choices" class="form-control" id="Roles">
+                    <option value=""> select role </option>
+                </select>
+                    <span asp-validation-for="@Model.PropertiesViewModel[i].Value" class="text-danger"></span>
+                    <input type="hidden" asp-for="@Model.PropertiesViewModel[i].propertyType" />
+                    <input type="hidden" asp-for="@Model.PropertiesViewModel[i].DropDownValues" />
+                    <input type="hidden" asp-for="@Model.PropertiesViewModel[i].IsRequired" />
+
+                    <input type="hidden" asp-for="@Model.PropertiesViewModel[i].Name" />
+                    <input type="hidden" value="@Model.PropertiesViewModel[i].Id" asp-for="PropertiesViewModel[i].Id" />
+
+                </div>
+        }
+
+            else if (Model.PropertiesViewModel[i].propertyType.Equals(PropertyType.Int))
+        {
+            <div class="form-group">
+                    <label >@Model.PropertiesViewModel[i].Name</label>
+                <input asp-for="@Model.PropertiesViewModel[i].Value" type="number" class="form-control"  >
+                    <span asp-validation-for="@Model.PropertiesViewModel[i].Value" class="text-danger"></span>
+                    <input type="hidden" asp-for="@Model.PropertiesViewModel[i].propertyType" />
+                    <input type="hidden" asp-for="@Model.PropertiesViewModel[i].IsRequired" />
+
+                    <input type="hidden" asp-for="@Model.PropertiesViewModel[i].Name" />
+                    <input type="hidden" value="@Model.PropertiesViewModel[i].Id" asp-for="PropertiesViewModel[i].Id" />
+
+
+            </div>
+
+    }
+        else if (item.propertyType.Equals(PropertyType.String))
+        {
+            <div class="form-group">
+                <label >@item.Name</label>
+                    <input asp-for="@Model.PropertiesViewModel[i].Value" type="text" class="form-control" id="@item.Name">
+                    <span asp-validation-for="@Model.PropertiesViewModel[i].Value" class="text-danger"></span>
+                    <input type="hidden" asp-for="@Model.PropertiesViewModel[i].IsRequired" />
+
+                    <input type="hidden" asp-for="@Model.PropertiesViewModel[i].propertyType" />
+                    <input type="hidden" asp-for="@Model.PropertiesViewModel[i].Name" />
+                    <input type="hidden" value="@Model.PropertiesViewModel[i].Id" asp-for="PropertiesViewModel[i].Id" />
+
+                </div>
+
+        }
+        else 
+        {
+            <div class="form-group"> 
+                    <label >@item.Name</label>
+               
+                    <input asp-for="@Model.PropertiesViewModel[i].Value" type="datetime-local" class="form-control" id="@item.Name">
+                    <span asp-validation-for="@Model.PropertiesViewModel[i].Value" class="text-danger"></span>
+                   
+                    <input type="hidden" asp-for="@Model.PropertiesViewModel[i].IsRequired" />
+                    <input type="hidden" asp-for="@Model.PropertiesViewModel[i].propertyType" />
+                    <input type="hidden" asp-for="@Model.PropertiesViewModel[i].Name" />
+                    <input type="hidden" value="@Model.PropertiesViewModel[i].Id" asp-for="PropertiesViewModel[i].Id" />
+
+            </div>
+
+        }
+       
+     
+    }
+    }
+    @if (ViewBag.isEdit == false)
+    {
+        <div class="form-group">
+            <input type="submit" value="submit" class="btn btn-secondary " asp-action="Create"/>
+        </div>
+    }
+    else
+    {
+        <div class="form-group">
+            <input type="submit" value="Edit" class="btn btn-secondary "  asp-action="Edit" />
+    </div>
+    }
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

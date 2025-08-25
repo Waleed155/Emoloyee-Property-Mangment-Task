@@ -1,0 +1,60 @@
+﻿@using Emoloyee_Property_Mangment_Task.ViewModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+
+    @model List<PropertyViewModel>
+@addTagHelper * , @Microsoft.AspNetCore.Mvc
+@addTagHelper * ,@Emoloyee_Property_Mangment_Task
+
+<div class="container mt-4">
+    <h2>Property List</h2>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    
+                    
+                        <th>Property Name </th>
+                        <th>propertyType </th>
+                        <th>IsRequired </th>
+                        <th>DropDownValues </th>
+                        <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var prop in Model)
+                {
+                    <tr>
+
+                        <td>@prop.Name </td>
+                        <td>@prop.propertyType </td>
+                        <td>@prop.IsRequired </td>
+                        <td>@prop.DropDownValues </td>
+                        <td>  
+                          <a href="@Url.Action("Edit", new { Id = prop.Id })" class="btn btn-sm btn-primary">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <a href="@Url.Action("Delete", new { Id = prop.Id })"
+                               class="btn btn-sm btn-danger"
+                               onclick="return confirm('Are you sure you want to delete this item?');">
+
+
+                                <i class="fas fa-info-circle"></i> Delete
+                            </a>
+                            </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <a href="@Url.Action("Create")" class="btn btn-success">
+        <i class="fas fa-plus"></i> Add New Property
+    </a>
+</div>
+

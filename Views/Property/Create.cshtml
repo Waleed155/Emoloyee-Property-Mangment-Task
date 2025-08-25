@@ -1,0 +1,64 @@
+﻿
+@{
+    var Types = ViewBag.TypeList as SelectList;
+}
+@model Emoloyee_Property_Mangment_Task.ViewModel.PropertyViewModel
+@addTagHelper * , @Microsoft.AspNetCore.Mvc
+@addTagHelper * ,@Emoloyee_Property_Mangment_Task
+
+
+<form method="post" asp-controller="Property">
+    
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <input asp-for="Id" type="hidden" value="@Model.Id">
+    <input asp-for="Value" type="hidden" value="@Model.Id">
+
+
+
+    <div class="form-group">
+        <label asp-for="@Model.Name">Property Name</label>
+        <input asp-for="@Model.Name" type="text" class=" form-control" placeholder="salary">
+        <span asp-validation-for="@Model.Name" class="text-danger"></span>
+
+    </div>
+    <div class="form-group">
+        <label asp-for="propertyType">Property Type</label>
+        <select asp-for="propertyType" asp-items="Types" class="form-control" id="Types">
+            <option value=""> select role </option>
+        </select>
+
+
+    </div>
+    
+    <div class="form-group">
+        <label asp-for="@Model.DropDownValues">DropDown Values</label>
+        <input asp-for="@Model.DropDownValues" type="text" class=" form-control"  placeholder="seperated by -  if the property type is dropdown ">
+        <span asp-validation-for="@Model.DropDownValues" class="text-danger"></span>
+
+    </div>
+    <div class="form-check">
+        <label asp-for="IsRequired" class="form-check-label">Is Required</label>
+        <input asp-for="IsRequired" class="form-check-input"  value="true"/>
+        <span asp-validation-for="IsRequired" class="text-danger"></span>
+    </div>
+    
+    
+    @if (ViewBag.isEdit == false)
+    {
+        <div class="form-group">
+            <input type="submit" value="submit" class="btn btn-secondary" asp-controller="Property" asp-action="Create" />
+        </div>
+    }
+    @if (ViewBag.isEdit == true)
+    {
+        <div class="form-group">
+            <input type="submit" value="Edit" class="btn btn-secondary " asp-action="Edit" />
+        </div>}
+    
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

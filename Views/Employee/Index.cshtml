@@ -1,0 +1,73 @@
+﻿@using Emoloyee_Property_Mangment_Task.ViewModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{}
+
+
+    @model HashSet<EmployeeViewModel>
+@addTagHelper * , @Microsoft.AspNetCore.Mvc
+@addTagHelper * ,@Emoloyee_Property_Mangment_Task
+
+<div class="container mt-4">
+    <h2>Employee List</h2>
+    
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                    @foreach (var prop in ViewBag.properties)
+                    {
+                        <th>@prop.Name </th>
+                    }
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var employee in Model)
+                {
+                    <tr>
+                        <td>@employee.Code</td>
+                        <td>@employee.Name</td>
+                        
+                        @foreach (var prop in ViewBag.properties)
+                        {
+                             <td>
+                            @foreach (var empProperty in employee.EmployeeProperties)
+                               {
+                           
+                                    @if (empProperty.PropertyId == prop.Id&&empProperty.Value!=null)
+                                    {
+                                       @empProperty.Value.ToString();
+                                   }
+        
+                        }
+                            </td>
+                        }
+                        <td>
+         
+                            <a href="@Url.Action("Edit", new { Id = employee.Id })" class="btn btn-sm btn-primary">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <a href="@Url.Action("Delete", new { Id = employee.Id })" 
+                            class="btn btn-sm btn-danger"
+                               onclick="return confirm('Are you sure you want to delete this item?');" >
+
+                            
+                                <i class="fas fa-info-circle"></i> Delete
+                            </a>
+                            
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    
+    <a href="@Url.Action("Create")" class="btn btn-success">
+        <i class="fas fa-plus"></i> Add New Employee
+    </a>
+</div>
+

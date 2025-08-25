@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\Emoloyee Property Mangment Task.props" />
+</Project>
